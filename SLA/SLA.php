@@ -42,37 +42,43 @@
 		function schema() {
 			return array(
 
-				array( 'CreateTableSQL', array( plugin_table( 'config' ), "
-					id                  I       NOTNULL UNSIGNED AUTOINCREMENT PRIMARY,
-					config_name         C(255)  NOTNULL,
-					config_int_value    I       DEFAULT NULL,
-					config_char_value   XL      DEFAULT NULL,
-					config_extra_value  C(255)  DEFAULT NULL,
-					report_id           I       DEFAULT NULL UNSIGNED,
-					project_id          I       DEFAULT NULL UNSIGNED,
-					user_id             I       DEFAULT NULL UNSIGNED,
-					is_default          I       NOTNULL UNSIGNED
+
+				array( 'CreateTableSQL', 
+					array( plugin_table( 'config' ), "
+						id                  I       NOTNULL UNSIGNED AUTOINCREMENT PRIMARY,
+						config_name         C(255)  NOTNULL,
+						config_int_value    I       DEFAULT NULL,
+						config_char_value   XL      DEFAULT NULL,
+						config_extra_value  C(255)  DEFAULT NULL,
+						report_id           I       DEFAULT NULL UNSIGNED,
+						project_id          I       DEFAULT NULL UNSIGNED,
+						user_id             I       DEFAULT NULL UNSIGNED,
+						is_default          I       NOTNULL UNSIGNED
 					" )
 				),
-				array( 'CreateTableSQL', array( plugin_table( 'struct' ), "
-					project_id          I       NOTNULL UNSIGNED PRIMARY,
-					priorite            C(255)  NOTNULL PRIMARY,
-					delai               C(255)  NOTNULL PRIMARY,
-					valeur              I       DEFAULT \" '0' \" 
+
+				array( 'CreateTableSQL', 
+					array( plugin_table( 'struct' ), "
+						project_id          I       NOTNULL UNSIGNED PRIMARY,
+						priorite            C(255)  NOTNULL PRIMARY,
+						delai               C(255)  NOTNULL PRIMARY,
+						valeur              I       DEFAULT \" '0' \" 
 					" )
 				),
-				array( 'CreateTableSQL', array( plugin_table( 'statut' ), "
-					project_id          I       NOTNULL UNSIGNED PRIMARY,
-					etat                C(255)  NOTNULL PRIMARY,
-					statut              C(255)  NOTNULL
+				array( 'CreateTableSQL', 
+					array( plugin_table( 'statut' ), "
+						project_id          I       NOTNULL UNSIGNED PRIMARY,
+						etat                C(255)  NOTNULL PRIMARY,
+						statut              C(255)  NOTNULL
 					" )
 				),
-				array( 'CreatTableSQL', array( plugin_table( 'horaire' ), "
-					project_id			I		NOTNULL UNSIGNED PRIMARY,
-					hjour				I		NOTNULL,
-					hdeb				C(5)	NOTNULL,
-					hfin				C(5)	NOTNULL,
-					pdej				C(5)	NOTNULL
+				array( 'CreateTableSQL', 
+					array( plugin_table( 'horaire' ), "
+						project_id			I		NOTNULL UNSIGNED PRIMARY,
+						hjour				I		NOTNULL,
+						hdeb				C(255)	NOTNULL,
+						hfin				C(255)	NOTNULL,
+						pdej				C(255)	NOTNULL
 					")
 				),
 			);
@@ -99,4 +105,3 @@
 			}
 		}
 	}
-?>
