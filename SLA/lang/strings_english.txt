@@ -1,0 +1,111 @@
+<?php
+
+# SLA - a statistics plugin for MantisBT
+#
+# Copyright (c) SLA.Org
+#
+# SLA is available in two versions: LIGHT and PRO.
+#
+# SLA LIGHT version is free for use (freeware software).
+# SLA PRO version is available for fee.
+# SLA LIGHT and PRO versions are NOT open-source software.
+#
+# A copy of License was delivered to you during the software download. See LICENSE file.
+#
+# SLA is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See License for more
+# details.
+#
+# https://www.mantisstats.org
+
+
+$s_plugin_SLA_title_full            = 'Service Level Agreement ';
+$s_plugin_SLA_title                 = 'SLA';
+$s_plugin_SLA_config_out_title      = 'Configuration des statuts délais';																		  
+$s_plugin_SLA_config_Tab			= 'Configuration des délais';
+$s_plugin_SLA_config_Horaire		= 'Configuration des Horaires';														 
+$s_plugin_SLA_synthese_detail       = 'Synthèse Détaillée';
+$s_plugin_SLA_test_sla              = 'Test_SLA';
+$s_plugin_SLA_controle_sla          = 'contrôle SLA';
+$s_plugin_SLA_result				= 'Résultat de la recherche';
+$s_plugin_SLA_id_fiche              = 'Id Fiche';
+$s_plugin_SLA_Application           = 'Application';
+$s_plugin_SLA_Titre                 = 'Titre';
+$s_plugin_SLA_Demandeur             = 'Demandeur';
+$s_plugin_SLA_Composant             = 'Composant';
+$s_plugin_SLA_Charge_Estimée		  = 'Charge Estimée';
+$s_plugin_SLA_date_reception		  = 'date reception';
+$s_plugin_SLA_Validation_Charge	  = 'Validation Charge';
+$s_plugin_SLA_action_update			= 'Mettre à jour';
+$s_plugin_SLA_info_valeur			= '* Mettre 0 pour "N/A" ou -1 pour "Sur Accord"';
+$s_plugin_SLA_maj_valeur			= 'Modifications des valeurs :';
+
+$s_plugin_SLA_dt_processing         = 'Processing...';
+$s_plugin_SLA_dt_info               = 'Showing _START_ to _END_ of _TOTAL_ entries';
+$s_plugin_SLA_dt_infoEmpty          = 'Showing 0 to 0 of 0 entries';
+$s_plugin_SLA_dt_infoPostFix        = '';
+$s_plugin_SLA_dt_loadingRecords     = 'Loading...';
+$s_plugin_SLA_dt_zeroRecords        = 'No matching records found';
+$s_plugin_SLA_dt_emptyTable         = 'Showing 0 to 0 of 0 entries';
+$s_plugin_SLA_dt_first              = 'First';
+$s_plugin_SLA_dt_previous           = 'Previous';
+$s_plugin_SLA_dt_next               = 'Next';
+$s_plugin_SLA_dt_last               = 'Last';
+$s_plugin_SLA_dt_sortAscending      = ': activate to sort column ascending';
+$s_plugin_SLA_dt_sortDescending     = ': activate to sort column descending';
+
+$s_plugin_SLA_timeframe             = 'For issues reported between';
+$s_plugin_SLA_admin					= 'Selectionner un Projet';												   
+$s_plugin_SLA_display               = 'Display';
+$s_plugin_SLA_project               = 'Project';
+$s_plugin_SLA_priv_proj_skip        = 'Les projets privés peuvent être ignorés dépendent du niveau de vos autorisations.';
+
+$s_plugin_SLA_unknown               = 'Unknown';
+$s_plugin_SLA_daily                 = 'Daily';
+$s_plugin_SLA_weekly                = 'Weekly';
+$s_plugin_SLA_monthly               = 'Monthly';
+$s_plugin_SLA_yearly                = 'Yearly';
+
+$s_plugin_SLA_start_date_option1    = 'Today';
+$s_plugin_SLA_start_date_option2    = 'Beginning of the week';
+$s_plugin_SLA_start_date_option3    = 'Beginning of the month';
+$s_plugin_SLA_start_date_option4    = 'Beginning of the year';
+$s_plugin_SLA_start_date_option5    = 'Beginning of the year of MantisBT data';
+
+$s_plugin_SLA_Bogue_ID				= 'BOGUE';
+$s_plugin_SLA_Proj_ID				= 'ID Projet';
+$s_plugin_SLA_Proj_lib				= 'Libellé projet';
+$s_plugin_SLA_Gravite				= 'Gravité';
+$s_plugin_SLA_Date_crea				= 'Date Création';
+$s_plugin_SLA_Heure_crea			= 'heure création';
+$s_plugin_SLA_statut				= 'Statut';
+$s_plugin_SLA_Date_P_Charge			= 'Date prise en charge';
+$s_plugin_SLA_Heure_P_Charge		= 'heure prise en charge';
+$s_plugin_SLA_Date_Cont				= 'Date contournement';
+$s_plugin_SLA_Heure_Cont			= 'Heure contournement';
+$s_plugin_SLA_Date_reso				= 'Date Résolution';
+$s_plugin_SLA_Heure_reso			= 'Heure résolution';
+$s_plugin_SLA_Tps_reso				= 'Temps de résolution';
+$s_plugin_SLA_Delai_P_Charge		= 'délai de prise en charge';
+$s_plugin_SLA_Delai_Cont			= 'délai de contournement';
+$s_plugin_SLA_Empty_Ref             = 'Problème de référentiel';
+$s_plugin_SLA_Resolution			= 'Résolution';
+$s_plugin_SLA_Contournement			= 'Contournement';
+$s_plugin_SLA_Prise_en_charge		= 'Prise en Charge';
+$s_plugin_SLA_h_jour				= 'Horaire jour';
+$s_plugin_SLA_h_deb_jour			= 'Horaire début de journée';
+$s_plugin_SLA_h_fin_jour			= 'Horaire fin de journée';
+$s_plugin_SLA_h_pause_dej			= 'Pause Déjeuner';
+$s_plugin_SLA_project_select		= 'Choix du projet : ';
+
+$s_plugin_SLA_head_delai			= 'Délais';
+$s_plugin_SLA_head_gravite			= 'Gravités';
+$s_plugin_SLA_head_valeur			= 'Valeur';
+
+$s_plugin_SLA_no_applicable			= 'N/A';
+$s_plugin_SLA_en_accord				= 'Sur accord';
+$s_plugin_SLA_heure					= 'Heure(s)';
+$s_plugin_SLA_info_heure			= 'hh:ss';
+$s_plugin_SLA_statut_client			= 'Statut côté client';
+$s_plugin_SLA_info_statut_client	= 'Saisir les numéros des statuts séparés par un point virgule';

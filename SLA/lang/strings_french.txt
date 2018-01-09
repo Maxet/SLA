@@ -1,0 +1,111 @@
+<?php
+
+# SLA - a statistics plugin for MantisBT
+#
+# Copyright (c) SLA.Org
+#
+# SLA is available in two versions: LIGHT and PRO.
+#
+# SLA LIGHT version is free for use (freeware software).
+# SLA PRO version is available for fee.
+# SLA LIGHT and PRO versions are NOT open-source software.
+#
+# A copy of License was delivered to you during the software download. See LICENSE file.
+#
+# SLA is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See License for more
+# details.
+#
+# https://www.mantisstats.org
+
+
+$s_plugin_SLA_title_full            = 'Service Level Agreement ';
+$s_plugin_SLA_title					= 'SLA';
+$s_plugin_SLA_config_out_title      = 'Configuration des statuts délais';
+$s_plugin_SLA_config_Tab			= 'Configuration des délais';
+$s_plugin_SLA_config_Horaire		= 'Configuration des Horaires';
+$s_plugin_SLA_synthese_detail       = 'Synthèse Détaillée';
+$s_plugin_SLA_test_sla              = 'Test_SLA';
+$s_plugin_SLA_controle_sla          = 'contrôle SLA';
+$s_plugin_SLA_result				= 'Résultat de la recherche';
+$s_plugin_SLA_id_fiche              = 'Id Fiche';
+$s_plugin_SLA_Application           = 'Application';
+$s_plugin_SLA_Titre                 = 'Titre';
+$s_plugin_SLA_Demandeur             = 'Demandeur';
+$s_plugin_SLA_Composant             = 'Composant';
+$s_plugin_SLA_Charge_Estimée		= 'Charge Estimée';
+$s_plugin_SLA_date_reception		= 'date reception';
+$s_plugin_SLA_Validation_Charge	  	= 'Validation Charge';
+$s_plugin_SLA_action_update			= 'Mettre à jour';
+$s_plugin_SLA_info_valeur			= '* Mettre 0 pour "N/A" ou -1 pour "Sur Accord"';
+$s_plugin_SLA_maj_valeur			= 'Modifications des valeurs :';
+
+$s_plugin_SLA_dt_processing         = 'Traitement en cours...';
+$s_plugin_SLA_dt_info               = 'Affichage de l\'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments';
+$s_plugin_SLA_dt_infoEmpty          = 'Affichage de l\'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments';
+$s_plugin_SLA_dt_infoPostFix        = '';
+$s_plugin_SLA_dt_loadingRecords     = 'Chargement en cours...';
+$s_plugin_SLA_dt_zeroRecords        = 'Aucun &eacute;l&eacute;ment &agrave; afficher';
+$s_plugin_SLA_dt_emptyTable         = 'Aucune donn&eacute;e disponible dans le tableau';
+$s_plugin_SLA_dt_first              = 'Premier';
+$s_plugin_SLA_dt_previous           = 'Pr&eacute;c&eacute;dent';
+$s_plugin_SLA_dt_next               = 'Suivant';
+$s_plugin_SLA_dt_last               = 'Dernier';
+$s_plugin_SLA_dt_sortAscending      = ': activer pour trier la colonne par ordre croissant';
+$s_plugin_SLA_dt_sortDescending     = ': activer pour trier la colonne par ordre d&eacute;croissant';
+
+$s_plugin_SLA_timeframe             = 'Pour les bogues modifiés entre';
+$s_plugin_SLA_admin					= 'Selectionner un Projet';
+$s_plugin_SLA_display               = 'Afficher';
+$s_plugin_SLA_project               = 'Projet';
+$s_plugin_SLA_priv_proj_skip        = 'Les projets privés peuvent être ignorés dépendent du niveau de vos autorisations.';
+
+$s_plugin_SLA_unknown               = 'Inconnu';
+$s_plugin_SLA_daily                 = 'Quotidien';
+$s_plugin_SLA_weekly                = 'Hebdomadaire';
+$s_plugin_SLA_monthly               = 'Mensuel';
+$s_plugin_SLA_yearly                = 'Annuel';
+
+$s_plugin_SLA_start_date_option1    = 'Aujourd\'hui';
+$s_plugin_SLA_start_date_option2    = 'Début de la semaine';
+$s_plugin_SLA_start_date_option3    = 'Début du mois';
+$s_plugin_SLA_start_date_option4    = 'Début d\'année';
+$s_plugin_SLA_start_date_option5    = 'Début de l\'année de données MantisBT';
+
+$s_plugin_SLA_Bogue_ID				= 'BOGUE';
+$s_plugin_SLA_Proj_ID				= 'ID Projet';
+$s_plugin_SLA_Proj_lib				= 'Libellé projet';
+$s_plugin_SLA_Gravite				= 'Gravité';
+$s_plugin_SLA_Date_crea				= 'Date Création';
+$s_plugin_SLA_Heure_crea			= 'heure création';
+$s_plugin_SLA_statut				= 'Statut';
+$s_plugin_SLA_Date_P_Charge			= 'Date prise en charge';
+$s_plugin_SLA_Heure_P_Charge		= 'heure prise en charge';
+$s_plugin_SLA_Date_Cont				= 'Date contournement';
+$s_plugin_SLA_Heure_Cont			= 'Heure contournement';
+$s_plugin_SLA_Date_reso				= 'Date Résolution';
+$s_plugin_SLA_Heure_reso			= 'Heure résolution';
+$s_plugin_SLA_Tps_reso				= 'Temps de résolution';
+$s_plugin_SLA_Delai_P_Charge		= 'délai de prise en charge';
+$s_plugin_SLA_Delai_Cont			= 'délai de contournement';
+$s_plugin_SLA_Empty_Ref             = 'Problème de référentiel';
+$s_plugin_SLA_Resolution			= 'Résolution';
+$s_plugin_SLA_Contournement			= 'Contournement';
+$s_plugin_SLA_Prise_en_charge		= 'Prise en Charge';
+$s_plugin_SLA_h_jour				= 'Horaire jour';
+$s_plugin_SLA_h_deb_jour			= 'Horaire début de journée';
+$s_plugin_SLA_h_fin_jour			= 'Horaire fin de journée';
+$s_plugin_SLA_h_pause_dej			= 'Pause Déjeuner';
+$s_plugin_SLA_project_select		= 'Choix du projet : ';
+
+$s_plugin_SLA_head_delai			= 'Délais';
+$s_plugin_SLA_head_gravite			= 'Gravités';
+$s_plugin_SLA_head_valeur			= 'Valeur';
+
+$s_plugin_SLA_no_applicable			= 'N/A';
+$s_plugin_SLA_en_accord				= 'Sur accord';
+$s_plugin_SLA_heure					= 'Heure(s)';
+$s_plugin_SLA_info_heure			= 'hh:ss';
+$s_plugin_SLA_statut_client			= 'Statut côté client';
+$s_plugin_SLA_info_statut_client	= 'Saisir les numéros des statuts séparés par un point virgule';

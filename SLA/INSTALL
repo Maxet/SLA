@@ -1,0 +1,67 @@
+INSTALLATION
+
+1.
+  Drop "SLA" folder from this archive into in the "plugins"
+  folder of your MantisBT installation. Please note that folder name is
+  case-sensitive!
+
+2.
+  In your MantisBT's Web interface go to "Manage" -> "Manage Plugins"
+  and click on "Install" for "SLA" plugin.
+
+Typical structure looks like this:
+
+    << mantisbt >>
+    | -- api
+    | -- core
+    | ...
+    | ...
+    | -- plugins
+    |     | -- SLA
+    |     |     | -- core
+    |     |     |     | -- sla_api.php
+    |     |     |     | -- SLA_extract_api.php
+    |     |     | -- files
+    |     |     |     | -- datatables-min.css
+    |     |     |     | -- datatables-min.js
+    |     |     |     | -- downarrow.png
+    |     |     |     | -- MantisStatsLogo.png
+    |     |     |     | -- SLA_main.css
+    |     |     |     | -- sort_asc.png
+    |     |     |     | -- sort_asc_disabled.png
+    |     |     |     | -- sort_both.png
+    |     |     |     | -- sort_desc.png
+    |     |     |     | -- sort_desc_disabled.png
+    |     |     | -- lang
+    |     |     |     | -- strings_english.txt
+    |     |     |     | -- strings_french.txt
+    |     |     | -- pages
+    |     |     |     | -- common_includes.php
+    |     |     |     | -- config_admin.php
+    |     |     |     | -- config_admin_projet.php
+    |     |     |     | -- controle_sla.php
+    |     |     |     | -- csp_support.php
+    |     |     |     | -- extract_csv.php
+    |     |     |     | -- extract_excel_xml.php
+    |     |     |     | -- start_page.php
+    |     |     | -- INSTALL
+    |     |     | -- SLA.php
+
+
+
+UPGRADE
+
+1.
+  Make backup of your local "SLA" folder and then remove it.
+  Unpack content of the downloaded archive into the same place.
+
+2.
+  Check if database "upgrade" is needed on the "Manage Plugins" page.
+  Check plugin configuration page to see if there are new settings or
+  reports.
+
+
+
+PROBLEMS?
+
+Send us email: 
