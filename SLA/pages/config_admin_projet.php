@@ -6,7 +6,7 @@
 
 	layout_page_header( lang_get( 'plugin_format_title' ) );
 	layout_page_begin( 'manage_overview_page.php' );
-	print_manage_menu( 'manage_plugin_page.php' );
+	print_manage_menu();
 
 	require_once 'common_includes.php';
 $ko = 0;
@@ -17,13 +17,13 @@ if ( FALSE == form_security_validate('config_admin')) { exit; };
 		// project setting
 		if (isset ($_POST['project_update']))
 		{
-			if (isset ($_POST['Valeur'])){ $proj_val = $_POST['Valeur']; } else { $proj_val =''; }
-			if (isset ( $_POST['Delai'])){ $proj_delai = $_POST['Delai']; } else { $proj_delai =''; }
-			if (isset ( $_POST['Priorite'])){ $proj_prio = $_POST['Priorite']; } else { $proj_prio =''; }
-			IF (empty($proj_val) OR empty($proj_delai) OR empty($proj_prio))
+			$proj_val = $_POST['valeur'];
+			$proj_delai = $_POST['Delai'];
+			$proj_prio = $_POST['Priorite'];
+			IF ($proj_val == '')
 			{
 				$ko = 1;
-			}
+			}			
 			IF($ko == 0){
 				if ($proj_delai == 1) {
 					$lib_delai= 'Prise en charge';
@@ -151,7 +151,8 @@ if ( FALSE == form_security_validate('config_admin')) { exit; };
 			//statuts client
 			if (isset ($_POST['stat_cli']))
 			{
-				$statut = $_POST['stat_cli'];
+				$tab_statut = $_POST['stat_cli'];
+				$statut = implode(";", $tab_statut);
 				
 				$q_stat_client = "
 									SELECT statut
@@ -210,10 +211,106 @@ if ( FALSE == form_security_validate('config_admin')) { exit; };
 				
 			}
 		}
-	}
 	
-	$t_redirect_url = plugin_page( 'config_admin', true );
-	layout_page_header( null, $t_redirect_url );
+		//initialisation
+		if (isset ($_POST['project_init']))
+		{
+			if (isset ($_POST['def_proj']))
+			{
+				$def_projet = $_POST['def_proj'];
+				//suppression des données du projet présent dans les tables
+				$q_delete = " delete from mantis_plugin_SLA_struct_table where project_id = ". $projet ."";
+				db_query( $q_delete );
+				//Récupération des délais par défaut
+				$q_defaut = "
+							SELECT priorite,
+								   delai,
+								   valeur
+							  FROM mantis_plugin_SLA_struct_table 
+							 WHERE project_id = ". $def_projet ."
+							 ORDER BY priorite desc
+							";
+				$r_defaut = db_query( $q_defaut );
+				$row_count_def = db_num_rows($r_defaut);
+				while( $t_row_def = db_fetch_array($r_defaut) ) {
+					$t_def_prio	= $t_row_def['priorite'];
+					$t_def_del	= $t_row_def['delai'];
+					$t_def_val	= $t_row_def['valeur'];
+					
+					
+					$q_insert = "
+								INSERT into mantis_plugin_SLA_struct_table 
+									   (project_id, priorite, delai, valeur) 
+								VALUES ('". $projet ."','".$t_def_prio ."','".$t_def_del ."','".$t_def_val ."')
+								";
+					db_query( $q_insert );
+				}
+				
+				//suppression des données du projet présent dans les tables
+				$q_delete = "delete from mantis_plugin_SLA_statut_table where project_id = ". $projet ."";
+				db_query( $q_delete );
+				//Récupération des status par défaut
+				$q_defaut = "
+							SELECT etat,
+								   statut
+							  FROM mantis_plugin_SLA_statut_table 
+							 WHERE project_id = ". $def_projet ."
+							";
+				$r_defaut = db_query( $q_defaut );
+				$row_count_def = db_num_rows($r_defaut);
+				while( $t_row_def = db_fetch_array($r_defaut) ) {
+					$t_def_etat	= $t_row_def['etat'];
+					$t_def_stat	= $t_row_def['statut'];
+					
+					$q_insert = "
+								INSERT into mantis_plugin_SLA_statut_table 
+									   (project_id, etat, statut) 
+								VALUES ('". $projet ."','". $t_def_etat ."','". $t_def_stat ."') 
+								";
+					db_query( $q_insert );
+				}
+				
+				//suppression des données du projet présent dans les tables
+				$q_delete = "delete from mantis_plugin_SLA_horaire_table where project_id = ". $projet ."";
+				db_query( $q_delete );
+				//Récupération des horaires par défaut
+				$q_defaut = "
+							SELECT hjour,
+								   hdeb,
+								   hfin,
+								   pdej
+							  FROM mantis_plugin_SLA_horaire_table 
+							 WHERE project_id = ". $def_projet ."
+							";
+				$r_defaut = db_query( $q_defaut );
+				$row_count_def = db_num_rows($r_defaut);
+				while( $t_row_def = db_fetch_array($r_defaut) ) {
+					$t_def_hjou = $t_row_def['hjour'];
+					$t_def_hdeb	= $t_row_def['hdeb'];
+					$t_def_hfin	= $t_row_def['hfin'];
+					$t_def_pdej	= $t_row_def['pdej'];
+					
+					$q_insert = "
+								INSERT into mantis_plugin_SLA_horaire_table 
+									   (project_id, hjour, hdeb, hfin, pdej) 
+								VALUES ('". $projet ."','". $t_def_hjou ."','". $t_def_hdeb ."','". $t_def_hfin ."','". $t_def_pdej ."') 
+								";
+					db_query( $q_insert );
+				}
+			}
+		}
+	}
+
+	
+	
+	if ($projet == 0){	
+		$t_redirect_url = plugin_page( 'config_admin', true );
+		layout_page_header( null, $t_redirect_url );
+	}
+	else{
+		$t_redirect_url = plugin_page( 'config_projet', true );
+		layout_page_header( null, $t_redirect_url );
+	}
 	
 	if ($ko == 0){
 		html_operation_successful( $t_redirect_url );

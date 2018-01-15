@@ -83,12 +83,23 @@
 				),
 			);
 		}
+		
 		# Plugin hooks
 		function hooks() {
 			return array(
 				'EVENT_MENU_MAIN'           => 'showreport_menu',
 				'EVENT_LAYOUT_RESOURCES'    => 'resources',
+				'EVENT_MENU_MANAGE' 		=> 'config_sla',
 			);
+		}
+		
+		#Add config menu item
+		function config_sla(){
+			if ( access_has_global_level( plugin_config_get( 'access_threshold' ) ) ) {
+				return array(
+					'<a href="' . plugin_page( 'config_projet' ) . '">' . lang_get( 'plugin_SLA_config' ) . '</a>',
+				);
+			}
 		}
 
 		# Loading needed styles and javascripts
@@ -96,7 +107,7 @@
 			if ( is_page_name( 'plugin.php' ) ) {
 				return
 					"
-						<link rel='stylesheet' type='text/css' href='" . plugin_file( 'reporting_main.css' ) . "'>
+						<link rel='stylesheet' type='text/css' href='" . plugin_file( 'SLA_main.css' ) . "'>
 						<link rel='stylesheet' type='text/css' href='" . plugin_file( 'datatables-min.css' ) . "'>
 						<script src='" . plugin_file( 'datatables-min.js' ) . "'></script>
 					";

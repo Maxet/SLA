@@ -52,20 +52,20 @@
 	
 	// dates received from form, if any
 	$dateFrom = '';
-	if ( isset( $_GET['date-from'] ) and !empty( $_GET['date-from'] ) ) {
+	if ( isset( $_POST['date_from'] ) and !empty( $_POST['date_from'] ) ) {
 		if ( FALSE == form_security_validate('date_picker') ) { exit; };
-		$dateFrom = strip_tags( $_GET['date-from'] );
-		$_SESSION['sess-date-from'] = $dateFrom;
-	} elseif ( isset( $_SESSION['sess-date-from'] ) and !empty( $_SESSION['sess-date-from'] ) ) {
-		$dateFrom = $_SESSION['sess-date-from'];
+		$dateFrom = strip_tags( $_POST['date_from'] );
+		$_SESSION['sess-date_from'] = $dateFrom;
+	} elseif ( isset( $_SESSION['sess-date_from'] ) and !empty( $_SESSION['sess-date_from'] ) ) {
+		$dateFrom = $_SESSION['sess-date_from'];
 	}
 	$dateTo = '';
-	if ( isset( $_GET['date-to'] ) and !empty( $_GET['date-to'] ) ) {
+	if ( isset( $_POST['date_to'] ) and !empty( $_POST['date_to'] ) ) {
 		if ( FALSE == form_security_validate('date_picker') ) { exit; };
-		$dateTo = strip_tags( $_GET['date-to'] );
-		$_SESSION['sess-date-to'] = $dateTo;
-	} elseif ( isset( $_SESSION['sess-date-to'] ) and !empty( $_SESSION['sess-date-to'] ) ) {
-		$dateTo = $_SESSION['sess-date-to'];
+		$dateTo = strip_tags( $_GET['date_to'] );
+		$_SESSION['sess-date_to'] = $dateTo;
+	} elseif ( isset( $_SESSION['sess-date_to'] ) and !empty( $_SESSION['sess-date_to'] ) ) {
+		$dateTo = $_SESSION['sess-date_to'];
 	}
 	
 	
@@ -293,7 +293,7 @@
 		
 		if ( isset( $theDate ) and !empty( $theDate ) and @checkdate( substr( $theDate,5,2 ), substr( $theDate,-2 ), substr( $theDate,0,4 ) ) ) { return $theDate; }
 		
-		if ( $dateType == 'date-from' ) {
+		if ( $dateType == 'date_from' ) {
 			
 			if ( $startDateInputFilter == 1 ) { // today
 				return date("Y-m-d");
