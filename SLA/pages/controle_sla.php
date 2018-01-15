@@ -8,10 +8,17 @@
 	$project_id                 = helper_get_current_project();
 	$specific_where             = helper_project_specific_where( $project_id );
 	$project_ids                = project_full( $project_id );
+	$mantis_bug_table           = db_get_table( 'bug' );
 	
 	if ( isset( $_POST['id_sla_proj'] ) ) {
 		$projet = $_POST['id_sla_proj'];
 	}
+	// start and finish dates and times
+	$db_datetimes = array();
+
+	$db_datetimes['start']  = strtotime( cleanDates( 'date_from', $dateFrom ) . " 00:00:00" );
+	$db_datetimes['finish'] = strtotime( cleanDates( 'date_to', $dateTo ) . " 23:59:59" );
+	
 	// Création de la liste des projets autorisés
 	function Which_projects (){
 		global $project_ids;
@@ -34,13 +41,19 @@
 	}
 		
 	function recup_Bogue($proj_id){
+		global $db_datetimes;
 		// Renvoi un tableau de Bogues
 		$q_bogues = "
 					SELECT id
 					  FROM mantis_bug_table
-					 WHERE project_id = ".$proj_id ."
+					 WHERE project_id = ".$proj_id."
+					   AND status not in ('5')
+					   AND (date_submitted BETWEEN ". db_prepare_string($db_datetimes['start']) ." and ".db_prepare_string($db_datetimes['finish']) ." 
+							OR 
+							last_updated BETWEEN ". db_prepare_string($db_datetimes['start']) ." and ".db_prepare_string($db_datetimes['finish']) .")
 					 ORDER BY id
 					";
+		
 				   
 		$r_bogues = db_query( $q_bogues );
 		$t_tab_bug = array();
@@ -251,24 +264,43 @@ EOT;
 
 <div id="wrapper">	
 	<div class="col-md-12 col-xs-12">
-		<div class="space-10"></div>
 		<div class="form-container">
 			<form action="<?php echo plugin_page( 'controle_sla' ) ?>" method="post">
+				<?php echo form_security_field( 'date_picker' ) ?>
 				<fieldset>
-					<h4  class="font-weight-bold" class="widget-title lighter" style='display: inline'>
-						<?php echo lang_get( 'plugin_SLA_project_select' ) ?>
-					</h4>
-					<select id = 'id_sla_proj' name = 'id_sla_proj'>
-						<?php echo Which_projects ();?>
-					</select>
-					<input id="ctr_SLA_display" name="ctr_SLA_display" type="submit" class="btn btn-primary btn-white btn-round" value=<?php echo lang_get( 'plugin_SLA_display' ); ?> class="button" />
+					<div id="filter">
+						<p  class="font-weight-bold" class="widget-title lighter" style='display: inline'>
+							<?php echo lang_get( 'plugin_SLA_project_select' ) ?>
+						</p>
+						<select id = 'id_sla_proj' name = 'id_sla_proj'>
+							<?php echo Which_projects ();?>
+						</select>
+						<div>
+							<p  class="font-weight-bold" class="widget-title lighter" style='display: inline'>
+								<?php echo lang_get( 'plugin_SLA_date_select' ) ?>
+							</p>
+							<input type="text" id="date_from" name="date_from" class="datetimepicker input-sm"
+								data-picker-locale="<?php echo lang_get_current_datetime_locale() ?>"
+								data-picker-format="Y-MM-DD"
+								size="12" value="<?php echo cleanDates('date-from', $dateFrom); ?>" />
+							<i class="fa fa-calendar fa-xlg datetimepicker"></i>
+							<span class="widen20">-</span>
+							<input type="text" id="date_to" name="date_to" class="datetimepicker input-sm"
+								data-picker-locale="<?php echo lang_get_current_datetime_locale() ?>"
+								data-picker-format="Y-MM-DD"
+								size="12" value="<?php echo cleanDates('date-to', $dateTo); ?>" />
+							<i class="fa fa-calendar fa-xlg datetimepicker"></i>
+						</div>
+						<span class="widen10">&nbsp;</span>
+						<input id="ctr_SLA_display" name="ctr_SLA_display" type="submit" class="btn btn-primary btn-white btn-round" value=<?php echo lang_get( 'plugin_SLA_display' ); ?> class="button" />
+					</div>
 				</fieldset>
 			</form>
 			<div class="space-10"></div>
 			<div class="container">
 				<div class="widget-toolbox padding-8 clearfix">
 					<div class="btn-toolbar">
-						<div class="btn-group pull-left">
+						<div class="btn-group pull-right">
 							<?php
 								# -- Print and Export links --
 								print_small_button( 'plugins/SLA/pages/extract_csv.php?idproj='.$projet.'', lang_get( 'csv_export' ) );

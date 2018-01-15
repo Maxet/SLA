@@ -3,20 +3,97 @@
 	if( !defined( 'MANTIS_VERSION' ) ) { exit(); }
 	
 	auth_reauthenticate( );
-	access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
+	//access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 	require_api( '../plugins/SLA/core/sla_api.php' );
-	
 	layout_page_header( lang_get( 'plugin_format_title' ) );
 	layout_page_begin( 'manage_overview_page.php' );
-	print_manage_menu( 'manage_plugin_page.php' );
+	$t_this_page = plugin_page( 'config_projet' ); 
+	print_manage_menu( $t_this_page );
 	
+	$specific_where             = helper_project_specific_where( $project_id );
+	$project_id                 = helper_get_current_project();
+	$specific_where             = helper_project_specific_where( $project_id );
+	$project_ids                = project_full( $project_id );
 	$mantis_project_table		= 'mantis_project_table';
 	
 	require_once 'common_includes.php';
-	$projet = 0;
+	
+	if ( isset( $_POST['sla_proj'] ) ) {
+		$projet = $_POST['sla_proj'];
+		$_SESSION["proj"] = $projet;
+	}else{
+		$projet = $_SESSION["proj"];
+	}
+	
+	// Création de la liste des projets autorisés
+	function Which_projects ($init = ''){
+		global $project_ids;
+		global $project_id;		
+		global $projet;
+		$count = 0;
+		foreach ($project_ids as $proj){
+			$count += 1;
+			$name = project_get_name( $proj);
+			if ( $proj == $projet and $projet != '0') { $selected = ' selected ';} else { $selected = ''; }		
+			if ( !isset($projet)){$projet = $proj;}
+			$WhichProject .= "<option " . $selected . " value='" . $proj . "'>" . $name . "</option>\n";
+		}
+		if($count == 0){
+			if ( $projet != '0'){				
+				$name = project_get_name( $project_id);
+				$WhichProject .= "<option selected value='" . $project_id . "'>" . $name . "</option>\n";
+				if($init == 'init'){
+					//ajout du projet par défaut
+					$WhichProject .= "<option value='0'>". lang_get('plugin_SLA_proj_defaut') ."</option>\n";
+				}
+			}else{
+				if($init == 'init'){
+					//ajout du projet par défaut
+					$WhichProject .= "<option" . $selected . " value='0'>". lang_get('plugin_SLA_proj_defaut') ."</option>\n";
+				}
+				$name = project_get_name( $project_id);
+				$WhichProject .= "<option value='" . $project_id . "'>" . $name . "</option>\n";
+			}
+		}
+		else{
+			if($init == 'init'){
+				if ( $projet != '0'){
+					//ajout du projet par défaut
+					$WhichProject .= "<option value='0'>". lang_get('plugin_SLA_proj_defaut') ."</option>\n";
+				}else{
+					//ajout du projet par défaut
+					$WhichProject .= "<option selected  value='0'>". lang_get('plugin_SLA_proj_defaut') ."</option>\n";
+				}
+			}
+		}
+		
+			
+			
+		
+		
+		return $WhichProject;		
+	}
+	
+	function getnumprojet($id_proj=''){
+		static $projet;
+		
+		IF ( $id_proj !=''){
+		$GLOBALS["proj"] = $id_proj;
+		}
+		return $GLOBALS["proj"];
+	}
+	
+	
+	$project_list = project_names(); 
+	foreach ( $project_list as $key=>$val) {
+		if ( $key == $projet ) { $selected = ' selected '; } else { $selected = ''; }		
+		if ( !isset($projet)){$projet = $key;}
+		$whichProject .= "<option " . $selected . " value='" . $key . "'>" . $project_list[$key] . "</option>\n";
+	}
 		
 	function affiche_sla_by_project(){
 		global $projet;
+		global $projet2;
 		$table_sla_proj  = $projet;
 		if ( isset($projet ) ) {
 			
@@ -168,18 +245,74 @@
 		return $recup;
 	}
 	
+	function recup_statclient(){
+		global $projet;
+		
+		$q_statut  = "select statut 
+						from " . plugin_table( 'statut' ) . " 
+					   where project_id = ".$projet."
+						 and etat = 'statut_client'
+		";
+		$r_statut = db_query( $q_statut );
+		while ($t_donnees = db_fetch_array($r_statut)){
+			$statut = $t_donnees['statut'];
+		}
+		$tab_status = explode(';', $statut);
+				
+		//Construction du tableau des statuts
+		$t_config_var_value = config_get( 'status_enum_string', null, null, 1 ); //récupération de tous les statuts
+		
+		$t_enum_values = MantisEnum::getValues( $t_config_var_value ); // récupération des libellés des statuts
+		foreach ( $t_enum_values as $t_enum_value ) {
+			// contruction du tableau avec l'id du statut et son libellé
+			$t_enum_list[$t_enum_value] = get_enum_element( 'status', $t_enum_value );
+		}
+		foreach ( $t_enum_list as $key=>$val) {
+			if (in_array($key,$tab_status)) {
+				$selected = ' selected '; 
+			} else { 
+				$selected = ''; 
+			}			
+			if ( !isset($statut)){$statut = $key;}
+			$StatutList .= "<option " . $selected . " value='" . $key . "'>" . $val ."</option>\n";
+		}
+		return $StatutList;
+	}
 ?>
 <div id="wrapper">	
-	<div class="col-md-12 col-xs-12">
-		<div class="space-10"></div>
+	<div class="col-md-12 col-xs-12">		
 		<div class="form-container">
-			<form action="<?php echo plugin_page( 'config_admin' ) ?>" method="post">
+			<form action="<?php echo plugin_page( 'config_projet' ) ?>" method="post">
 				<fieldset>
-					<div>
-						<h4  class="font-weight-bold" class="widget-title lighter" style='display: inline'>
-							<?php echo lang_get( 'plugin_SLA_config_Default' ) ?>
-						</h4>
-					</div>					
+					<div class='row'>
+						<div class="col-md-8">
+							<h4  class="font-weight-bold" class="widget-title lighter" style='display: inline'>
+								<?php echo lang_get( 'plugin_SLA_project_select' ) ?>
+							</h4>
+							<select id="sla_proj" name='sla_proj' >
+								<?php echo Which_projects();?>
+							</select>
+							<input id="project_update" name="project_update" type="submit" class="btn btn-primary btn-white btn-round" value=<?php echo lang_get( 'plugin_SLA_display' ); ?> class="button" />
+						</div>
+						</form>
+						<form action="<?php echo plugin_page( 'config_admin_projet' ) ?>" method="post">
+							<?php echo form_security_field( 'config_admin' ) ?>
+							<input type="hidden" value="<?php echo $projet?>" name="idpro"/>
+							<div class="col-md-4" style = "background-color: #eeeeee; border: 1px solid #a9a9a9;">
+								<h6 class="font-weight-bold" class="widget-title lighter" >
+									<?php echo lang_get( 'plugin_SLA_project_option' ) ?>
+								</h6>
+								<input id="project_init" name="project_init" type="submit" class="btn btn-primary btn-sm btn-white btn-round no-float" value=<?php echo lang_get( 'plugin_SLA_init' ); ?> class="button" />
+								<p style='display: inline'>
+									<?php echo lang_get( 'plugin_SLA_init_string' ) ?>
+								</p>
+								<select id="def_proj" name='def_proj' >
+									<?php echo Which_projects('init');?>
+								</select>								
+								<p><i><font size="1"><?php echo lang_get('plugin_SLA_info_init'); ?></font></i></p>
+							</div>
+						</form>
+					</div>
 					<div class="space-10"></div>
 					<div class="widget-box widget-color-blue2">
 						<div class="widget-header widget-header-small">
@@ -188,8 +321,7 @@
 								<?php echo lang_get( 'plugin_SLA_config_Tab' ) ?>
 							</h4>
 						</div>						
-						<div class="widget-body">
-						</form>
+						<div class="widget-body">						
 						<form action="<?php echo plugin_page( 'config_admin_projet' ) ?>" method="post">
 							<?php echo form_security_field( 'config_admin' ) ?>
 							<input type="hidden" value="<?php echo $projet?>" name="idpro"/>
@@ -285,8 +417,9 @@
 										<tr>
 											<td class="category"><?php echo lang_get('plugin_SLA_statut_client'); ?></td>	
 											<td>
-												<input type="text" id="stat_cli" name="stat_cli" value="<?php echo recup_statut_client($projet); ?>"/>
-												<p style='display: inline'><i><font size="1"><?php echo lang_get('plugin_SLA_info_statut_client'); ?></font></i></p>
+												<select class="selectpicker" multiple data-selected-text-format="count" id="stat_cli[]" name="stat_cli[]">
+													<?php echo recup_statclient();?>
+												</select>
 											</td>
 										</tr>
 									</table>
